@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
     //Create a Speed property that can be changed in the editor
-    public float Speed = 1f;
-    public float JumpHight = 5f;
-    //public bool IsGrounded;
+    public float Speed = 10f;
+    //Create a Jump Hight Variable
+    public float JumpHight = 100f;
+    //Create a reference for the rigid body in the script
     public Rigidbody2D Rigid;
+
     // Use this for initialization
     void Start () {
+        //Gives Rigid Context
         Rigid = GetComponent<Rigidbody2D>();
 	}
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    ///{
-        
-    //}
-
-    //void oncoll
 
     // Update is called once per frame
     void Update () {
@@ -27,21 +23,26 @@ public class Movement : MonoBehaviour {
         float DirX = Input.GetAxis("Horizontal") * Speed * Time.deltaTime;
         float DirY = Input.GetAxis("Jump") * JumpHight * Time.deltaTime;
 
-        if (true) //IsGrounded check goes here
+
+        int layer_mask = 1 << LayerMask.NameToLayer("Ground");
+
+        float ray_length = GetComponent<Collider2D>().bounds.extents.y+0.05f;
+        bool grounded = Physics2D.Raycast(transform.position, Vector2.down, ray_length, layer_mask);
+        if (grounded == true) //IsGrounded check goes here
         {
             if (Input.GetButtonDown("Jump"))
             {
-                Rigid.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+                //Rigid.AddForce(Vector2.up * JumpHight, ForceMode2D.Impulse);
+
+                Vector2 velocity = Rigid.velocity;
+
+                velocity.y += 30.0f;
+
+                Rigid.velocity = velocity;
             }
         }
 
         Rigid.AddForce(Input.GetAxis("Horizontal") * Vector2.right * Speed, ForceMode2D.Impulse);
-        // Continuously updates the position of the character - Allows for movement when the "DirX" variable changes
-       // transform.position = new Vector2(transform.position.x + DirX, transform.position.y + DirY);
 
-        //if (Rigid.detectCollision == true)
-        //{
-
-       // }
     }
 }
