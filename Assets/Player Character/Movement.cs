@@ -3,46 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
-    //Create a Speed property that can be changed in the editor
-    public float Speed = 10f;
-    //Create a Jump Hight Variable
-    public float JumpHight = 100f;
-    //Create a reference for the rigid body in the script
+    // Create a Speed property that can be changed in the editor.
+    private float Speed = 10f;
+    // Create a Jump Height Variable.
+    private float JumpHeight = 30f;
+    // Create a reference for the rigid body in the script.
     public Rigidbody2D Rigid;
 
-    // Use this for initialization
+    // Use this for initialization.
     void Start () {
-        //Gives Rigid Context
+        // Gives Rigid Context.
         Rigid = GetComponent<Rigidbody2D>();
 	}
 
-    // Update is called once per frame
-    void Update () {
+    // Update is called once per frame.
+    void FixedUpdate () {
+        // Creates the variable "Velocity".
+        Vector2 Velocity = Rigid.velocity;
 
-        //Creates a float value for the Direction of the object on the X axis when either the left and right movement keys are pressed.
-        float DirX = Input.GetAxis("Horizontal") * Speed * Time.deltaTime;
-        float DirY = Input.GetAxis("Jump") * JumpHight * Time.deltaTime;
+        // Assigns the variable "LayerM" to the chosen layer that that is relevant.
+        int LayerGround = 1 << LayerMask.NameToLayer("Ground");
 
+        // This creates a variable that creates a value that is the size of the collision box on the object the script is attached on with an extra 0.5 length.
+        float RayLen = GetComponent<Collider2D>().bounds.extents.y+0.05f;
 
-        int layer_mask = 1 << LayerMask.NameToLayer("Ground");
+        //This determines if the object the script is attached to is touching an object on the relevant layer that is specified by the variable "LayerGround".
+        bool IsGrounded = Physics2D.Raycast(transform.position, Vector2.down, RayLen, LayerGround);
 
-        float ray_length = GetComponent<Collider2D>().bounds.extents.y+0.05f;
-        bool grounded = Physics2D.Raycast(transform.position, Vector2.down, ray_length, layer_mask);
-        if (grounded == true) //IsGrounded check goes here
+        //Checks to see if the boolean is true
+        if (IsGrounded == true)
         {
+            //Check to see if the "Jump" axis buttons have been pressed returning true.
             if (Input.GetButtonDown("Jump"))
             {
-                //Rigid.AddForce(Vector2.up * JumpHight, ForceMode2D.Impulse);
-
-                Vector2 velocity = Rigid.velocity;
-
-                velocity.y += 30.0f;
-
-                Rigid.velocity = velocity;
+                // This changes the velocity of the object by the value of the variable "JumpHeight" on the "y" axis.
+                Velocity.y += JumpHeight;
             }
         }
 
-        Rigid.AddForce(Input.GetAxis("Horizontal") * Vector2.right * Speed, ForceMode2D.Impulse);
+        // This changes the velocity of the object by the value of the variable "Speed" on the "x" axis.
+        Velocity.x = Input.GetAxis("Horizontal")* Speed;
 
+        // Gives "Velocity" a value in conjunction to the abject the script is attached to.
+        Rigid.velocity = Velocity;
     }
 }
