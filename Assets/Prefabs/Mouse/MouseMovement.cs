@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour {
+public class MouseMovement : MonoBehaviour {
     // Create a Speed property that can be changed in the editor.
     private float Speed = 10f;
     // Create a Jump Height Variable.
-    private float JumpHeight = 30f;
+    private float JumpHeight = 20f;
     // Create a reference for the rigid body in the script.
     public Rigidbody2D Rigid;
+    //Create a Character Change Boolean
+    private bool CharaChange = false;
 
     // Use this for initialization.
     void Start () {
@@ -30,21 +32,37 @@ public class Movement : MonoBehaviour {
         //This determines if the object the script is attached to is touching an object on the relevant layer that is specified by the variable "LayerGround".
         bool IsGrounded = Physics2D.Raycast(transform.position, Vector2.down, RayLen, LayerGround);
 
-        //Checks to see if the boolean is true
-        if (IsGrounded == true)
+        if (Input.GetButtonDown("Change"))
         {
-            //Check to see if the "Jump" axis buttons have been pressed returning true.
-            if (Input.GetButtonDown("Jump"))
+            if (CharaChange == false)
             {
-                // This changes the velocity of the object by the value of the variable "JumpHeight" on the "y" axis.
-                Velocity.y += JumpHeight;
+                CharaChange = true;
+            }
+            else
+            {
+                CharaChange = false;
             }
         }
 
-        // This changes the velocity of the object by the value of the variable "Speed" on the "x" axis.
-        Velocity.x = Input.GetAxis("Horizontal")* Speed;
+        if (CharaChange == true)
+        {
 
-        // Gives "Velocity" a value in conjunction to the abject the script is attached to.
-        Rigid.velocity = Velocity;
+            //Checks to see if the boolean is true
+            if (IsGrounded == true)
+            {
+                //Check to see if the "Jump" axis buttons have been pressed returning true.
+                if (Input.GetButtonDown("Jump"))
+                {
+                    // This changes the velocity of the object by the value of the variable "JumpHeight" on the "y" axis.
+                    Velocity.y += JumpHeight;
+                }
+            }
+
+            // This changes the velocity of the object by the value of the variable "Speed" on the "x" axis.
+            Velocity.x = Input.GetAxis("Horizontal") * Speed;
+
+            // Gives "Velocity" a value in conjunction to the abject the script is attached to.
+            Rigid.velocity = Velocity;
+        }
     }
 }
