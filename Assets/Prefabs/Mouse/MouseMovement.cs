@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MouseMovement : MonoBehaviour {
     // Create a Speed property that can be changed in the editor.
-    private float Speed = 10f;
+    public float Speed = 10f;
     // Create a Jump Height Variable.
-    private float JumpHeight = 20f;
+    public float JumpHeight = 20f;
     // Create a reference for the rigid body in the script.
     public Rigidbody2D Rigid;
     //Create a Character Change Boolean

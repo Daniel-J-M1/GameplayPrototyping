@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 61764337995272754}
   - component: {fileID: 50772538916032172}
   - component: {fileID: 114002904633449262}
+  - component: {fileID: 114827690800393360}
   m_Layer: 0
   m_Name: Mouse
   m_TagString: Mouse
@@ -175,6 +176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e7372189319fa4428668c895c941536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 10
+  JumpHeight: 20
   Rigid: {fileID: 0}
 --- !u!114 &114305889069263382
 MonoBehaviour:
@@ -187,8 +190,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6736a12053daff44946ccfc0c07b6d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  Offset: {x: 0, y: 0, z: 0}
+  Mouse: {fileID: 0}
+  OffSet: {x: 0, y: 0, z: 0}
+--- !u!114 &114827690800393360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1327851651671828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660bd9bb2ad895d4abe3f8bb88916556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pos: {x: 0, y: 0}
 --- !u!124 &124559215739008450
 Behaviour:
   m_ObjectHideFlags: 1
