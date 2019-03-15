@@ -4,23 +4,39 @@ using UnityEngine;
 
 public class TeleportMouse : MonoBehaviour {
 
-    public Vector2 Pos = GameObject.Find("MouseHoles").GetComponent<TeleMouseHole>().Pos;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    //public 
+    private Vector2 George;
+
+    // All tags that can teleport
+    private string TagList = "|MouseHole|";
+
+    // Use this for initialization
+    void Start ()
+    {
+
+
+    }
 
 	// Update is called once per frame
 	void Update () {
-		
+        George = GameObject.FindWithTag("MouseHole").GetComponent<TeleMouseHole>().Location;
+        //print(George);
+
+        if (Input.GetButtonDown("Teleport"))
+        {
+            transform.position = George;
+
+        }
+        
 	}
 
-    private void OnTriggerEnter(Collider Hole)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (Hole.gameObject.CompareTag("MouseHole"))
+        if (TagList.Contains(string.Format("|{0}|", other.tag)))
         {
-            print("colided");
+            print("George: " + George);
         }
+
     }
 }
